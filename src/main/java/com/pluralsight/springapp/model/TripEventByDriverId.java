@@ -10,30 +10,23 @@ import org.springframework.data.cassandra.core.mapping.Table;
 import java.time.Instant;
 import java.util.UUID;
 
-@Table("trip_events_by_trip_id")
+@Table("trip_event_by_driver_id")
 @Data
 @NoArgsConstructor
-public class TripEventByTripId {
-    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
+public class TripEventByDriverId {
     private UUID tripId;
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
     private UUID driverId;
     private UUID riderId;
     private EventType eventType;
     @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED)
     private Instant timeStamp;
 
-    public TripEventByTripId(TripEvent tripEvent) {
+    public TripEventByDriverId(TripEvent tripEvent) {
         this.tripId = UUID.fromString(tripEvent.getTripId());
-        this.driverId = tripEvent.getDriverId() != null ? UUID.fromString(tripEvent.getDriverId()) : null;
+        this.driverId = UUID.fromString(tripEvent.getDriverId());
         this.riderId = tripEvent.getRiderId() != null ? UUID.fromString(tripEvent.getRiderId()) : null;
         this.eventType = EventType.valueOf(tripEvent.getEventType());
         this.timeStamp = Instant.now();
     }
-
-    public boolean isInOrder(TripEvent tripEvent) {
-        return this.eventType.getOrder() <= EventType.valueOf(tripEvent.getEventType()).getOrder();
-    }
-
-
 }
-

@@ -3,10 +3,7 @@ package com.pluralsight.springapp.controller;
 import com.pluralsight.springapp.controller.dto.TripEvent;
 import com.pluralsight.springapp.service.TripEventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -18,7 +15,17 @@ public class TripEventController {
     private final TripEventService tripEventService;
 
     @PostMapping()
-    public UUID createTrip(@RequestBody TripEvent tripEvent) {
+    public TripEvent createTrip(@RequestBody TripEvent tripEvent) {
         return tripEventService.createTripEvent(tripEvent);
+    }
+
+    @GetMapping("/drivers/{driverId}/active-trip")
+    public TripEvent getActiveTripByDriverId(@PathVariable String driverId) {
+        return tripEventService.getActiveTripByDriverId(UUID.fromString(driverId));
+    }
+
+    @GetMapping("trips/{tripId}/snapshot")
+    public TripEvent getTripSnapshot(@PathVariable String tripId) {
+        return tripEventService.getTripByTripId(UUID.fromString(tripId));
     }
 }
