@@ -18,11 +18,13 @@ public class TripEventByTripId {
     private UUID tripId;
     private UUID driverId;
     private UUID riderId;
-    private EventType eventType;
+    private UUID eventId;
     @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED)
+    private EventType eventType;
     private Instant timeStamp;
 
-    public TripEventByTripId(TripEvent tripEvent) {
+    public TripEventByTripId(TripEvent tripEvent, UUID eventId) {
+        this.eventId = eventId;
         this.tripId = UUID.fromString(tripEvent.getTripId());
         this.driverId = tripEvent.getDriverId() != null ? UUID.fromString(tripEvent.getDriverId()) : null;
         this.riderId = tripEvent.getRiderId() != null ? UUID.fromString(tripEvent.getRiderId()) : null;

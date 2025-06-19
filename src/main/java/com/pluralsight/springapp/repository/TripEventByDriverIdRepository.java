@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface TripEventByDriverIdRepository extends CassandraRepository<TripEventByDriverId, String> {
-    TripEventByDriverId findByDriverId(UUID driverId);
+public interface TripEventByDriverIdRepository extends CassandraRepository<TripEventByDriverId, UUID> {
+    TripEventByDriverId findFirstByDriverIdOrderByEventId(UUID driverId);
 }

@@ -12,5 +12,5 @@ import java.util.UUID;
 public interface TripEventByTripIdRepository extends CassandraRepository<TripEventByTripId, UUID> {
 
     @Consistency(DefaultConsistencyLevel.LOCAL_QUORUM)
-    TripEventByTripId findByTripId(UUID tripId);
+    TripEventByTripId findFirstByTripId(UUID tripId);
 }
